@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import *
+from frontend.views import *
 
 urlpatterns = [
-    path('login', LoginView),
+    path('login', index),
+    path('create-user', index)
 ]

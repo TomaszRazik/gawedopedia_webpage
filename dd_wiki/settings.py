@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'backend.apps.BackendConfig',
     'frontend.apps.FrontendConfig',
     'authentication.apps.AuthenticationConfig',
-    'rest_framework'
+    'rest_framework',
+    # 'api',
 ]
 
 MIDDLEWARE = [
