@@ -1,8 +1,50 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from .models import LandModel
+from.serializers import LandModelModelSerializer, LandModelSerializer
 
 
 # Create your views here.
 
-def start(request):
-    return HttpResponse('Welcome in backend!')
+@csrf_exempt
+def land_model_list(request):
+    if request.method == "GET":
+        land_models = LandModel.objects.all()
+        serializer = LandModelModelSerializer(land_models, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method =='POST':
+        data = JSONParser().parse(request)
+        serializer = LandModelModelSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        else:
+            return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def land_model_detail(request, pk):
+    try:
+        land_model = LandModel.objects.get(pk=pk)
+    except LandModel.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == "GET":
+        serializer = LandModelModelSerializer(land_model)
+        return JsonResponse(serializer.data)
+
+    elif request.method == "PUT":
+        data = JSONParser().parse(request)
+        serializer = LandModelModelSerializer(land_model, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        else:
+            return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == "DELETE":
+        land_model.delete()
+        return HttpResponse(status=204)
+
+        
