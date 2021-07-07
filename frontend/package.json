@@ -1,11 +1,12 @@
 {
   "name": "frontend",
   "version": "1.0.0",
+  "proxy": "http://localhost:8000",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev" : "webpack --mode development --watch",
-    "build" : "webpack --mode production"
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",

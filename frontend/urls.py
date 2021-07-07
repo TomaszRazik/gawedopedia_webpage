@@ -5,5 +5,7 @@ urlpatterns = [
     path('', index),
     path('campain', index),
     path('npc', index),
+    path('lands', index),
+    path('lands/<int:pk>', index),
     
 ]

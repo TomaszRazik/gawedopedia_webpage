@@ -20,7 +20,9 @@ function Navbar() {
           <Button color="inherit" href="/campain">
             Campains
           </Button>
-          <Button color="inherit">Opt3</Button>
+          <Button color="inherit" href="/lands">
+            Lands
+          </Button>
           <Typography className="flexGrow1" />
           <Button color="inherit" href="/auth/login">
             Login
