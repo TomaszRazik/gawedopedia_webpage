@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 
 class LandList extends Component {
   constructor(props) {
@@ -33,21 +34,27 @@ class LandList extends Component {
   render() {
     return (
       <div>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          href="http://localhost:8000/lands/add"
+        >
           Add new
         </Button>
         <ul>
           {this.state.landData.map((item) => (
             <div key={item.id}>
               <h1>
-                {item.id}. {item.name}
+                <Link to={`/lands/${item.id}`}>
+                  {item.id}. {item.name}
+                </Link>
               </h1>
               <p>Opis: {item.s_descr}</p>
-              <span>{item.l_descr}</span>
+              {/* <span>{item.l_descr}</span>
               <h6>{item.hashtags}</h6>
               <p>Added: {item.date_added}</p>
-              <h6>Added by: {item.added_by}</h6>
-              <Button variant="contained">Edit</Button>
+              <h6>Added by: {item.added_by}</h6> */}
+              <Button variant="contained">Details</Button>
             </div>
           ))}
         </ul>
