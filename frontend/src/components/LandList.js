@@ -50,11 +50,6 @@ class LandList extends Component {
                 </Link>
               </h1>
               <p>Opis: {item.s_descr}</p>
-              {/* <span>{item.l_descr}</span>
-              <h6>{item.hashtags}</h6>
-              <p>Added: {item.date_added}</p>
-              <h6>Added by: {item.added_by}</h6> */}
-              <Button variant="contained">Details</Button>
             </div>
           ))}
         </ul>

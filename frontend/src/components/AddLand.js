@@ -14,8 +14,8 @@ class AddLand extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -26,62 +26,78 @@ class AddLand extends Component {
     });
   }
 
-  handleSubmit(event) {
-    console.log(this.state);
-    // Dokończyć wysyłanie do Bazy danych
+  handleSubmit() {
+    const post_data = {
+      name: this.state.name,
+      s_descr: this.state.s_descr,
+      l_descr: this.state.l_descr,
+      hashtags: this.state.hashtags,
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post_data),
+    };
+
+    fetch("http://localhost:8000/backend/lands/", requestOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <h1>Dodaj nową krainę!</h1>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              name="name"
-              inputProps={{ maxLength: 100 }}
-              value={this.state.name}
-              label="Nazwa"
-              onChange={this.handleInputChange}
-            />
-            <TextField
-              required
-              name="s_descr"
-              inputProps={{ maxLength: 300 }}
-              value={this.state.s_descr}
-              label="Krótki opis"
-              onChange={this.handleInputChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              required
-              name="l_descr"
-              value={this.state.l_descr}
-              label="Długi opis"
-              multiline
-              rows={8}
-              onChange={this.handleInputChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              inputProps={{ maxLength: 200 }}
-              name="hashtags"
-              value={this.state.hashtags}
-              label="Hashtags"
-              onChange={this.handleInputChange}
-            />
-            <Button variant="contained" color="primary" type="submit">
-              Dodaj
-            </Button>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h1>Dodaj nową krainę!</h1>
         </Grid>
-      </form>
+        <Grid item xs={12}>
+          <TextField
+            required
+            name="name"
+            inputProps={{ maxLength: 100 }}
+            value={this.state.name}
+            label="Nazwa"
+            onChange={this.handleInputChange}
+          />
+          <TextField
+            required
+            name="s_descr"
+            inputProps={{ maxLength: 300 }}
+            value={this.state.s_descr}
+            label="Krótki opis"
+            onChange={this.handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            required
+            name="l_descr"
+            value={this.state.l_descr}
+            label="Długi opis"
+            multiline
+            rows={8}
+            onChange={this.handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            inputProps={{ maxLength: 200 }}
+            name="hashtags"
+            value={this.state.hashtags}
+            label="Hashtags"
+            onChange={this.handleInputChange}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleSubmit}
+          >
+            Dodaj
+          </Button>
+        </Grid>
+      </Grid>
     );
   }
 }
