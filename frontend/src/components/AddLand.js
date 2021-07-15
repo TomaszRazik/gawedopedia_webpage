@@ -15,7 +15,11 @@ class AddLand extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.error = this.error.bind(this);
   }
+
+  error = null;
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -42,7 +46,8 @@ class AddLand extends Component {
 
     fetch("http://localhost:8000/backend/lands/", requestOptions)
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e.message));
   }
 
   render() {
