@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { YellowButton } from "./FrontendUtils";
+import { YellowButton, DeleteWindow, EditLandWindow } from "./FrontendUtils";
 import Alert from "@material-ui/lab/Alert";
 
 class LandDetail extends Component {
@@ -18,11 +18,14 @@ class LandDetail extends Component {
         date_added: "",
         added_by: "",
         error: null,
+        deleteWindow: false,
+        editWindow: false,
       },
     };
 
     this.handleEditButton = this.handleEditButton.bind(this);
-    this.handleDeleteButton = this.handleDeleteButton.bind(this);
+    this.openDeleteWindow = this.openDeleteWindow.bind(this);
+    this.closeWindow = this.closeWindow.bind(this);
   }
 
   async componentDidMount() {
@@ -42,11 +45,22 @@ class LandDetail extends Component {
   }
 
   handleEditButton() {
-    pass;
+    this.setState({
+      editWindow: true,
+    });
   }
 
-  handleDeleteButton() {
-    pass;
+  openDeleteWindow() {
+    this.setState({
+      deleteWindow: true,
+    });
+  }
+
+  closeWindow() {
+    this.setState({
+      deleteWindow: false,
+      editWindow: false,
+    });
   }
 
   render() {
@@ -55,10 +69,13 @@ class LandDetail extends Component {
         <h1>Item Detail:</h1>
         <h1>{this.state.item.name}</h1>
         <p>{this.state.item.s_descr}</p>
-        <p>{this.state.item.l_descr}</p>
-        <p>{this.state.item.hashtags}</p>
-        <p>{this.state.item.date_added}</p>
-        <p>{this.state.item.added_by}</p>
+        <p>Opis: {this.state.item.l_descr}</p>
+        <p>Hashtags: {this.state.item.hashtags}</p>
+        <p>
+          Dodano dnia:
+          {new Date(this.state.item.date_added).toLocaleDateString()}
+        </p>
+        <p>Dodano przez: {this.state.item.added_by}</p>
 
         <YellowButton
           size="small"
@@ -67,22 +84,39 @@ class LandDetail extends Component {
           startIcon={<CloudUploadIcon />}
           onClick={this.handleEditButton}
         >
-          Edit
+          Edytuj
         </YellowButton>
         <Button
           variant="contained"
           color="secondary"
           size="small"
           startIcon={<DeleteIcon />}
-          onClick={this.handleDeleteButton}
+          onClick={this.openDeleteWindow}
         >
-          Delete
+          Usuń
         </Button>
 
         {this.state.error && (
           <Alert variant="filled" severity="error">
             {this.state.error}
           </Alert>
+        )}
+        {/* Wyskakujące okienka nie działają poprawnie. Naprawić */}
+        {this.state.deleteWindow && (
+          <DeleteWindow
+            open={this.state.deleteWindow}
+            onClose={() => {
+              this.setState({ deleteWindow: false });
+            }}
+          />
+        )}
+        {this.state.editWindow && (
+          <EditLandWindow
+            open={this.state.editWindow}
+            onClose={() => {
+              this.setState({ editWindow: false });
+            }}
+          />
         )}
       </div>
     );

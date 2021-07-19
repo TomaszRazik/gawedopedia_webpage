@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Alert from "@material-ui/lab/Alert";
 
 class AddLand extends Component {
   constructor(props) {
@@ -11,14 +12,13 @@ class AddLand extends Component {
       s_descr: "",
       l_descr: "",
       hashtags: "",
+      success: false,
+      error: null,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.error = this.error.bind(this);
   }
-
-  error = null;
 
   handleInputChange(event) {
     const target = event.target;
@@ -30,7 +30,7 @@ class AddLand extends Component {
     });
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     const post_data = {
       name: this.state.name,
       s_descr: this.state.s_descr,
@@ -44,10 +44,26 @@ class AddLand extends Component {
       body: JSON.stringify(post_data),
     };
 
-    fetch("http://localhost:8000/backend/lands/", requestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((e) => console.log(e.message));
+    try {
+      const res = await fetch(
+        "http://localhost:8000/backend/lands/",
+        requestOptions
+      );
+      if (!res.ok) {
+        throw Error("Wystąpił błąd podczas wysyłania danych...");
+      }
+
+      this.setState({
+        name: "",
+        s_descr: "",
+        l_descr: "",
+        hashtags: "",
+        success: "Dodano pozycję. Możesz dodać kolejną",
+      });
+    } catch (e) {
+      console.log(e.message);
+      this.setState({ error: e.message });
+    }
   }
 
   render() {
@@ -101,6 +117,20 @@ class AddLand extends Component {
           >
             Dodaj
           </Button>
+        </Grid>
+        <Grid item xs={12}>
+          {this.state.success && (
+            <Alert variant="filled" severity="success">
+              {this.state.success}
+            </Alert>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          {this.state.error && (
+            <Alert variant="filled" severity="error">
+              {this.state.error}
+            </Alert>
+          )}
         </Grid>
       </Grid>
     );
