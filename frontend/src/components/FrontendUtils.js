@@ -9,6 +9,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 export const YellowButton = withStyles((theme) => ({
   root: {
@@ -31,8 +32,7 @@ export function SuccessSnackbar(message) {
     </div>
   );
 }
-// Poniższe funncje nie działają poprawnie. Naprawić.
-export function DeleteWindow(isOpen, onClose) {
+export const DeleteWindow = ({ isOpen, onClose, onDelete }) => {
   return (
     <div>
       <Dialog
@@ -52,16 +52,21 @@ export function DeleteWindow(isOpen, onClose) {
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cofnij</Button>
-          <Button variant="contained" color="secondary">
+          <Button onClick={onDelete} variant="contained" color="secondary">
             Usuń
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
 
-export function EditLandWindow(isOpen, onClose) {
+DeleteWindow.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+export const EditLandWindow = ({ isOpen, onClose }) => {
   return (
     <div>
       <Dialog
@@ -85,4 +90,9 @@ export function EditLandWindow(isOpen, onClose) {
       </Dialog>
     </div>
   );
-}
+};
+
+EditLandWindow.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
