@@ -18,12 +18,12 @@ class LandDetail extends Component {
         date_added: "",
         added_by: "",
         error: null,
-        deleteWindow: false,
-        editWindow: false,
+        openDeleteWindow: false,
+        openEditWindow: false,
       },
     };
 
-    this.handleEditButton = this.handleEditButton.bind(this);
+    this.openEditWindow = this.openEditWindow.bind(this);
     this.openDeleteWindow = this.openDeleteWindow.bind(this);
     this.closeWindow = this.closeWindow.bind(this);
   }
@@ -42,25 +42,43 @@ class LandDetail extends Component {
       console.log(e.message);
       this.setState({ error: e.message });
     }
+    this.setState({
+      openDeleteWindow: false,
+      openEditWindow: false,
+    });
   }
 
-  handleEditButton() {
+  openEditWindow() {
     this.setState({
-      editWindow: true,
+      openEditWindow: true,
     });
   }
 
   openDeleteWindow() {
     this.setState({
-      deleteWindow: true,
+      openDeleteWindow: true,
     });
   }
 
-  closeWindow() {
+  closeWindow = () => {
     this.setState({
-      deleteWindow: false,
-      editWindow: false,
+      openDeleteWindow: false,
+      openEditWindow: false,
     });
+  };
+
+  async deleteItem() {
+    try {
+      const res = await fetch(`/backend/lands/${this.props.match.params.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw Error("Wystąpił błąd podczas usuwania danych...");
+      }
+    } catch (e) {
+      console.log(e.message);
+      this.setState({ error: e.message }); //Tu jest bug. Sprawdzić czemu nie działa
+    }
   }
 
   render() {
@@ -82,7 +100,7 @@ class LandDetail extends Component {
           variant="contained"
           color="primary"
           startIcon={<CloudUploadIcon />}
-          onClick={this.handleEditButton}
+          onClick={this.openEditWindow}
         >
           Edytuj
         </YellowButton>
@@ -101,21 +119,17 @@ class LandDetail extends Component {
             {this.state.error}
           </Alert>
         )}
-        {/* Wyskakujące okienka nie działają poprawnie. Naprawić */}
-        {this.state.deleteWindow && (
+        {this.state.openDeleteWindow && (
           <DeleteWindow
-            open={this.state.deleteWindow}
-            onClose={() => {
-              this.setState({ deleteWindow: false });
-            }}
+            isOpen={this.state.openDeleteWindow}
+            onClose={this.closeWindow}
+            onDelete={this.deleteItem}
           />
         )}
-        {this.state.editWindow && (
+        {this.state.openEditWindow && (
           <EditLandWindow
-            open={this.state.editWindow}
-            onClose={() => {
-              this.setState({ editWindow: false });
-            }}
+            isOpen={this.state.openEditWindow}
+            onClose={this.closeWindow}
           />
         )}
       </div>
