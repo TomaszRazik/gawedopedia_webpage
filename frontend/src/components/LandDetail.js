@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -9,23 +10,22 @@ class LandDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      item: {
-        id: "",
-        name: "",
-        s_descr: "",
-        l_descr: "",
-        hashtags: "",
-        date_added: "",
-        added_by: "",
-        error: null,
-        openDeleteWindow: false,
-        openEditWindow: false,
-      },
+      id: "",
+      name: "",
+      s_descr: "",
+      l_descr: "",
+      hashtags: "",
+      date_added: "",
+      added_by: "",
+      error: null,
+      openDeleteWindow: false,
+      openEditWindow: false,
     };
 
     this.openEditWindow = this.openEditWindow.bind(this);
     this.openDeleteWindow = this.openDeleteWindow.bind(this);
     this.closeWindow = this.closeWindow.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   async componentDidMount() {
@@ -35,8 +35,15 @@ class LandDetail extends Component {
         throw Error("Wystąpił błąd podczas pobierania danych...");
       }
       const item = await res.json();
+      console.log(item);
       this.setState({
-        item,
+        id: item.id,
+        name: item.name,
+        s_descr: item.s_descr,
+        l_descr: item.l_descr,
+        hashtags: item.hashtags,
+        date_added: item.date_added,
+        added_by: item.added_by,
       });
     } catch (e) {
       console.log(e.message);
@@ -46,6 +53,7 @@ class LandDetail extends Component {
       openDeleteWindow: false,
       openEditWindow: false,
     });
+    console.log(this.state);
   }
 
   openEditWindow() {
@@ -69,15 +77,21 @@ class LandDetail extends Component {
 
   async deleteItem() {
     try {
-      const res = await fetch(`/backend/lands/${this.props.match.params.id}`, {
+      console.log(this.state);
+      const res = await fetch(`/backend/lands/${this.state.id}`, {
         method: "DELETE",
       });
+      console.log(res.status);
       if (!res.ok) {
         throw Error("Wystąpił błąd podczas usuwania danych...");
+      } else {
+        // Wyrażenie history.push nie działą
+        let history = useHistory();
+        history.push("/lands");
       }
     } catch (e) {
       console.log(e.message);
-      this.setState({ error: e.message }); //Tu jest bug. Sprawdzić czemu nie działa
+      this.setState({ error: e.message });
     }
   }
 
@@ -85,15 +99,15 @@ class LandDetail extends Component {
     return (
       <div>
         <h1>Item Detail:</h1>
-        <h1>{this.state.item.name}</h1>
-        <p>{this.state.item.s_descr}</p>
-        <p>Opis: {this.state.item.l_descr}</p>
-        <p>Hashtags: {this.state.item.hashtags}</p>
+        <h1>{this.state.name}</h1>
+        <p>{this.state.s_descr}</p>
+        <p>Opis: {this.state.l_descr}</p>
+        <p>Hashtags: {this.state.hashtags}</p>
         <p>
           Dodano dnia:
-          {new Date(this.state.item.date_added).toLocaleDateString()}
+          {new Date(this.state.date_added).toLocaleDateString()}
         </p>
-        <p>Dodano przez: {this.state.item.added_by}</p>
+        <p>Dodano przez: {this.state.added_by}</p>
 
         <YellowButton
           size="small"
