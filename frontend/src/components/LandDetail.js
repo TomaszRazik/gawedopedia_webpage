@@ -26,6 +26,8 @@ class LandDetail extends Component {
     this.openDeleteWindow = this.openDeleteWindow.bind(this);
     this.closeWindow = this.closeWindow.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async componentDidMount() {
@@ -35,7 +37,6 @@ class LandDetail extends Component {
         throw Error("Wystąpił błąd podczas pobierania danych...");
       }
       const item = await res.json();
-      console.log(item);
       this.setState({
         id: item.id,
         name: item.name,
@@ -53,7 +54,6 @@ class LandDetail extends Component {
       openDeleteWindow: false,
       openEditWindow: false,
     });
-    console.log(this.state);
   }
 
   openEditWindow() {
@@ -68,6 +68,16 @@ class LandDetail extends Component {
     });
   }
 
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
   closeWindow = () => {
     this.setState({
       openDeleteWindow: false,
@@ -77,15 +87,13 @@ class LandDetail extends Component {
 
   async deleteItem() {
     try {
-      console.log(this.state);
       const res = await fetch(`/backend/lands/${this.state.id}`, {
         method: "DELETE",
       });
-      console.log(res.status);
       if (!res.ok) {
         throw Error("Wystąpił błąd podczas usuwania danych...");
       } else {
-        // Wyrażenie history.push nie działą
+        // Wyrażenie history.push nie działa
         let history = useHistory();
         history.push("/lands");
       }
@@ -93,6 +101,43 @@ class LandDetail extends Component {
       console.log(e.message);
       this.setState({ error: e.message });
     }
+  }
+
+  async handleSubmit() {
+    console.log(this.state);
+    const post_data = {
+      name: this.state.name,
+      s_descr: this.state.s_descr,
+      l_descr: this.state.l_descr,
+      hashtags: this.state.hashtags,
+    };
+
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post_data),
+    };
+
+    try {
+      const res = await fetch(
+        `/backend/lands/${this.state.id}/`,
+        requestOptions
+      );
+      if (!res.ok) {
+        throw Error("Wystąpił błąd podczas wysyłania danych...");
+      }
+
+      this.setState({
+        success: "Pozycja zotałą zmieniona",
+      });
+    } catch (e) {
+      console.log(e.message);
+      this.setState({ error: e.message });
+    }
+
+    this.setState({
+      openEditWindow: false,
+    });
   }
 
   render() {
@@ -133,6 +178,11 @@ class LandDetail extends Component {
             {this.state.error}
           </Alert>
         )}
+        {this.state.success && (
+          <Alert variant="filled" severity="success">
+            {this.state.success}
+          </Alert>
+        )}
         {this.state.openDeleteWindow && (
           <DeleteWindow
             isOpen={this.state.openDeleteWindow}
@@ -144,6 +194,12 @@ class LandDetail extends Component {
           <EditLandWindow
             isOpen={this.state.openEditWindow}
             onClose={this.closeWindow}
+            name={this.state.name}
+            s_descr={this.state.s_descr}
+            l_descr={this.state.l_descr}
+            hashtags={this.state.hashtags}
+            handleInputChange={this.handleInputChange}
+            handleSubmit={this.handleSubmit}
           />
         )}
       </div>

@@ -1,8 +1,10 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import { yellow } from "@material-ui/core/colors";
 import {
+  Button,
+  TextField,
+  Grid,
   Dialog,
   DialogActions,
   DialogContent,
@@ -66,7 +68,16 @@ DeleteWindow.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export const EditLandWindow = ({ isOpen, onClose }) => {
+export const EditLandWindow = ({
+  isOpen,
+  onClose,
+  name,
+  s_descr,
+  l_descr,
+  hashtags,
+  handleInputChange,
+  handleSubmit,
+}) => {
   return (
     <div>
       <Dialog
@@ -77,13 +88,51 @@ export const EditLandWindow = ({ isOpen, onClose }) => {
       >
         <DialogTitle id="alert-dialog-title">{"Edycja pozycji"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Tu będzie forma z możliwością zmiany zapisanych danych.
-          </DialogContentText>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                name="name"
+                inputProps={{ maxLength: 100 }}
+                value={name}
+                label="Nazwa"
+                onChange={handleInputChange}
+              />
+              <TextField
+                required
+                name="s_descr"
+                inputProps={{ maxLength: 300 }}
+                value={s_descr}
+                label="Krótki opis"
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                name="l_descr"
+                value={l_descr}
+                label="Długi opis"
+                multiline
+                rows={8}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                inputProps={{ maxLength: 200 }}
+                name="hashtags"
+                value={hashtags}
+                label="Hashtags"
+                onChange={handleInputChange}
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cofnij</Button>
-          <Button variant="contained" color="primary">
+          <Button onClick={handleSubmit} variant="contained" color="primary">
             Zapisz
           </Button>
         </DialogActions>
