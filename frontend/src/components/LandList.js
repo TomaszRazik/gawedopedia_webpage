@@ -39,20 +39,20 @@ class LandList extends Component {
           color="primary"
           href="http://localhost:8000/lands/add"
         >
-          Add new
+          Dodaj Krainę
         </Button>
-        <ul>
+        <ol>
           {this.state.landData.map((item) => (
             <div key={item.id}>
-              <h1>
-                <Link to={`/lands/${item.id}`}>
-                  {item.id}. {item.name}
-                </Link>
+              <h1 key={item.id}>
+                <li key={item.id}>
+                  <Link to={`/lands/${item.id}`}>{item.name}</Link>
+                </li>
               </h1>
               <p>Opis: {item.s_descr}</p>
             </div>
           ))}
-        </ul>
+        </ol>
       </div>
     );
   }
