@@ -89,22 +89,26 @@ class LandDetail extends Component {
     try {
       const res = await fetch(`/backend/lands/${this.state.id}`, {
         method: "DELETE",
+        redirect: "follow",
+        credentials: "include",
       });
+      console.log(res);
       if (!res.ok) {
         throw Error("Wystąpił błąd podczas usuwania danych...");
-      } else {
-        // Wyrażenie history.push nie działa
-        let history = useHistory();
-        history.push("/lands");
       }
+      this.setState({
+        success: "Pozycja zotała usunięta",
+      });
     } catch (e) {
       console.log(e.message);
       this.setState({ error: e.message });
     }
+    this.setState({
+      openDeleteWindow: false,
+    });
   }
 
   async handleSubmit() {
-    console.log(this.state);
     const post_data = {
       name: this.state.name,
       s_descr: this.state.s_descr,
@@ -128,7 +132,7 @@ class LandDetail extends Component {
       }
 
       this.setState({
-        success: "Pozycja zotałą zmieniona",
+        success: "Pozycja zotała zmieniona",
       });
     } catch (e) {
       console.log(e.message);

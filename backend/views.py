@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .models import LandModel
@@ -46,5 +46,9 @@ def land_model_detail(request, pk):
     elif request.method == "DELETE":
         land_model.delete()
         return HttpResponse(status=204)
+
+        # return HttpResponseRedirect('http://localhost:8000/lands')
+        # Niestety ta metoda przekierowania po usunięciu wpisu nie działa ze względu na certyfikaty CSRF
+        # Błąd Django: Forbidden (CSRF cookie not set.): /lands
 
         
