@@ -17,8 +17,8 @@ function Navbar() {
           <Button color="inherit" href="/npc">
             NPC
           </Button>
-          <Button color="inherit" href="/campain">
-            Campains
+          <Button color="inherit" href="/cities">
+            Cities
           </Button>
           <Button color="inherit" href="/lands">
             Lands

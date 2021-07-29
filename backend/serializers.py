@@ -7,7 +7,16 @@ class LandModelModelSerializer(serializers.ModelSerializer):
         model=LandModel
         fields=['id','name','s_descr','l_descr', 'hashtags', 'date_added', 'added_by']
 
+class CityModelModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CityModel
+        fields = ['id', 'name', 's_descr', 'l_descr', 'hashtags', 'land', 'date_added', 'added_by']
 
+class NpcModelModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NpcModel
+        fields = ['id', 'name' ,'avatar', 's_descr', 'l_descr', 'hashtags', 'city', 'date_added', 'added_by']
+        
 
 # Poniżej są standardowe wpisy. Można zastąpić instancjami ModelSerializer. Mniej pisania.
 

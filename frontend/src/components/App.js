@@ -19,7 +19,16 @@ function App() {
         <Navbar />
         <Router>
           <Route path="/campain" component={CampainList} />
-          <Route path="/npc" component={NpcList} />
+          <Switch>
+            <Route path="/npc" exact component={NpcList} />
+            <Route path="/npc/add" component={AddNpc} />
+            <Route path="/npc/:id" component={NpcDetail} />
+            <Switch>
+              <Route path="/city" exact component={CityList} />
+              <Route path="/city/add" component={AddCity} />
+              <Route path="/city/:id" component={CityDetail} />
+            </Switch>
+          </Switch>
           <Switch>
             <Route path="/lands" exact component={LandList} />
             <Route path="/lands/add" component={AddLand} />
