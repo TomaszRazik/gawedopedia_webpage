@@ -1,16 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Container } from "@material-ui/core";
 import HomePage from "./HomePage";
 import CampainList from "./CampainList";
 import NpcList from "./NpcList";
 import UserLogin from "./UserLogin";
 import UserCreate from "./UserCreate";
 import Navbar from "./Navbar";
-import { Container } from "@material-ui/core";
 import LandList from "./LandList";
 import LandDetail from "./LandDetail";
 import AddLand from "./AddLand";
+import AddNpc from "./AddNpc";
+import NpcDetail from "./NpcDetail";
+import CityList from "./CityList";
+import AddCity from "./AddCity";
+import CityDetail from "./CityDetail";
 
 function App() {
   return (

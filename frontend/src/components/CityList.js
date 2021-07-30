@@ -22,7 +22,7 @@ class CityList extends Component {
 
   async componentDidMount() {
     try {
-      const res = await fetch("http://localhost:8000/backend/cities");
+      const res = await fetch("http://localhost:8000/backend/city");
       const cityData = await res.json();
       this.setState({
         cityData,
@@ -38,7 +38,7 @@ class CityList extends Component {
         <Button
           variant="contained"
           color="primary"
-          href="http://localhost:8000/cities/add"
+          href="http://localhost:8000/city/add"
         >
           Dodaj Miasto
         </Button>
@@ -47,7 +47,7 @@ class CityList extends Component {
             <div key={item.id}>
               <h1>
                 <li>
-                  <Link to={`/cities/${item.id}`}>{item.name}</Link>
+                  <Link to={`/city/${item.id}`}>{item.name}</Link>
                 </li>
               </h1>
             </div>
