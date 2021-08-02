@@ -145,3 +145,175 @@ EditLandWindow.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
+
+export const EditCityWindow = ({
+  isOpen,
+  onClose,
+  name,
+  s_descr,
+  l_descr,
+  hashtags,
+  land,
+  handleInputChange,
+  handleSubmit,
+}) => {
+  return (
+    <div>
+      <Dialog
+        open={isOpen}
+        onClose={onClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Edycja pozycji"}</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                name="name"
+                inputProps={{ maxLength: 100 }}
+                value={name}
+                label="Nazwa"
+                onChange={handleInputChange}
+              />
+              <TextField
+                required
+                name="s_descr"
+                inputProps={{ maxLength: 300 }}
+                value={s_descr}
+                label="Krótki opis"
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                name="l_descr"
+                value={l_descr}
+                label="Długi opis"
+                multiline
+                rows={8}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                inputProps={{ maxLength: 200 }}
+                name="hashtags"
+                value={hashtags}
+                label="Hashtags"
+                onChange={handleInputChange}
+              />
+              <TextField
+                inputProps={{ maxLength: 100 }}
+                name="land"
+                value={land}
+                label="Kraina"
+                onChange={handleInputChange}
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cofnij</Button>
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            Zapisz
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
+
+EditCityWindow.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+export const EditNpcWindow = ({
+  isOpen,
+  onClose,
+  name,
+  s_descr,
+  l_descr,
+  hashtags,
+  city,
+  handleInputChange,
+  handleSubmit,
+}) => {
+  return (
+    <div>
+      <Dialog
+        open={isOpen}
+        onClose={onClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Edycja pozycji"}</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                name="name"
+                inputProps={{ maxLength: 100 }}
+                value={name}
+                label="Nazwa"
+                onChange={handleInputChange}
+              />
+              <TextField
+                required
+                name="s_descr"
+                inputProps={{ maxLength: 300 }}
+                value={s_descr}
+                label="Krótki opis"
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                name="l_descr"
+                value={l_descr}
+                label="Długi opis"
+                multiline
+                rows={8}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                inputProps={{ maxLength: 200 }}
+                name="hashtags"
+                value={hashtags}
+                label="Hashtags"
+                onChange={handleInputChange}
+              />
+              <TextField
+                inputProps={{ maxLength: 100 }}
+                name="city"
+                value={city}
+                label="Miasto"
+                onChange={handleInputChange}
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cofnij</Button>
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            Zapisz
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
+
+EditNpcWindow.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

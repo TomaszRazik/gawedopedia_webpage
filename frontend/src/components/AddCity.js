@@ -10,7 +10,7 @@ class AddCity extends Component {
       s_descr: "",
       l_descr: "",
       hashtags: "",
-      land: "",
+      land: 1, //Tymczasowa stała wartość
       success: false,
       error: null,
     };
@@ -20,7 +20,7 @@ class AddCity extends Component {
 
   handleInputChange(event) {
     const target = event.target;
-    const value = event.value;
+    const value = target.value;
     const name = target.name;
 
     this.setState({
@@ -110,6 +110,15 @@ class AddCity extends Component {
             label="Hashtags"
             onChange={this.handleInputChange}
           />
+          <TextField
+            inputProps={{ maxLength: 200 }}
+            name="land"
+            value={this.state.land}
+            label="Kraina"
+            onChange={this.handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
           <Button
             variant="contained"
             color="primary"
@@ -120,9 +129,9 @@ class AddCity extends Component {
         </Grid>
         <Grid item xs={12}>
           {this.state.success && (
-            <ALert variant="filled" severity="success">
+            <Alert variant="filled" severity="success">
               {this.state.success}
-            </ALert>
+            </Alert>
           )}
         </Grid>
         <Grid item xs={12}>

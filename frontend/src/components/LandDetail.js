@@ -54,6 +54,7 @@ class LandDetail extends Component {
       openDeleteWindow: false,
       openEditWindow: false,
     });
+    console.log(this.state);
   }
 
   openEditWindow() {
@@ -147,7 +148,7 @@ class LandDetail extends Component {
   render() {
     return (
       <div>
-        <h1>Item Detail:</h1>
+        <h1>Szczegóły krainy:</h1>
         <h1>{this.state.name}</h1>
         <p>{this.state.s_descr}</p>
         <p>Opis: {this.state.l_descr}</p>

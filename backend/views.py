@@ -55,7 +55,7 @@ def land_model_detail(request, pk):
 @csrf_exempt
 def city_model_list(request):
     if request.method == 'GET':
-        city_models = CityModel
+        city_models = CityModel.objects.all()
         serializer = CityModelModelSerializer(city_models, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -66,6 +66,7 @@ def city_model_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status = 201)
         else:
+            print('Bad serializer')
             return JsonResponse(serializer.errors, status = 400)
 
 @csrf_exempt
@@ -86,6 +87,7 @@ def city_model_detail(request, pk):
             serializer.save()
             return JsonResponse(serializer.data)
         else:
+            print('Bad serializer')
             return JsonResponse(serializer.errors, status = 400)
 
     elif request.method == "DELETE":
@@ -106,6 +108,7 @@ def npc_model_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status = 201)
         else:
+            print('Bad serializer')
             return JsonResponse(serializer.errors, status = 400)
 
 @csrf_exempt
@@ -126,6 +129,7 @@ def npc_model_detail(request, pk):
             serializer.save()
             return JsonResponse(serializer.data)
         else:
+            print('Bad serializer')
             return JsonResponse(serializer.errors, status = 400)
 
     elif request.method == "DELETE":
